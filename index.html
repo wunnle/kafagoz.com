@@ -219,11 +219,11 @@
           upper.style.transform = 'translateY(-100%)';
           lower.style.transform = 'translateY(100%)';
           eyeOpen = true;
-        }, 150);
+        }, 200);
 
         setTimeout(() => {
           eyeLashes.style.opacity = '1';
-        }, 220);
+        }, 270);
       }
 
       function tick() {
@@ -278,8 +278,36 @@
         blinkUp();
       });
 
+      function doubleBlink() {
+        blinkDown();
+        setTimeout(() => {
+          blinkUp();
+          setTimeout(() => {
+            blinkDown();
+            setTimeout(() => {
+              blinkUp();
+            }, 100);
+          }, 200);
+        }, 100);
+      }
+
+      function blink() {
+        if (eyeOpen) {
+          blinkDown();
+          setTimeout(() => {
+            blinkUp();
+          }, 100);
+        }
+        const delay = 6000 + Math.random() * 12000;
+        setTimeout(blink, delay);
+      }
+
       // Initial state
+
       blinkUp();
+      doubleBlink();
+      blink();
+      requestAnimationFrame(tick);
 
       tick();
     })();
