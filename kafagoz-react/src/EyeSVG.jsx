@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 const EyeSVG = () => {
   const svgRef = useRef(null);
@@ -7,8 +7,11 @@ const EyeSVG = () => {
   const shineRef = useRef(null);
   const eyelidsGroupRef = useRef(null);
   
-  const [numberOfClicks, setNumberOfClicks] = useState(0);
-  const [eyeOpen, setEyeOpen] = useState(true);
+  // Refs rather than state: nothing here renders these two, and as effect deps
+  // they would re-run the effect on every click and blink, stacking a new rAF
+  // loop and a new automaticBlink timer each time.
+  const numberOfClicks = useRef(0);
+  const eyeOpen = useRef(true);
   const shineVisible = useRef(true);
   const target = useRef({ x: 0, y: 0 });
   const pos = useRef({ x: 0, y: 0 });
@@ -31,6 +34,16 @@ const EyeSVG = () => {
     const box = irisArea.getBBox();
     const EYE_CX = box.x + box.width / 2;
     const EYE_CY = box.y + box.height / 2;
+
+    // Tracked so unmount can clear anything still pending.
+    const timers = new Set();
+    const later = (fn, ms) => {
+      const id = setTimeout(() => {
+        timers.delete(id);
+        fn();
+      }, ms);
+      timers.add(id);
+    };
 
     const svgPointFromPage = (evt) => {
       const pt = svg.createSVGPoint();
@@ -56,9 +69,9 @@ const EyeSVG = () => {
     };
 
     const blinkDown = () => {
-      setEyeOpen(false);
-      
-      setTimeout(() => {
+      eyeOpen.current = false;
+
+      later(() => {
         if (eyeLashes) {
           eyeLashes.style.opacity = '0';
         }
@@ -66,9 +79,9 @@ const EyeSVG = () => {
 
       const upper = svg.querySelector('.eyelidUpper');
       const lower = svg.querySelector('.eyelidLower');
-      
+
       if (upper && lower) {
-        if (numberOfClicks > 3) {
+        if (numberOfClicks.current > 3) {
           upper.style.transition = 'transform 0.05s ease-in';
           lower.style.transition = 'transform 0.05s ease-in';
         } else {
@@ -81,9 +94,9 @@ const EyeSVG = () => {
     };
 
     const squint = () => {
-      setEyeOpen(false);
-      
-      setTimeout(() => {
+      eyeOpen.current = false;
+
+      later(() => {
         if (eyeLashes) {
           eyeLashes.style.opacity = '0';
         }
@@ -100,7 +113,7 @@ const EyeSVG = () => {
     };
 
     const blinkUp = () => {
-      setTimeout(() => {
+      later(() => {
         const upper = svg.querySelector('.eyelidUpper');
         const lower = svg.querySelector('.eyelidLower');
         if (upper && lower) {
@@ -108,17 +121,18 @@ const EyeSVG = () => {
           lower.style.transition = 'transform 0.2s ease-out';
           upper.style.transform = 'translateY(-100%)';
           lower.style.transform = 'translateY(100%)';
-          setEyeOpen(true);
+          eyeOpen.current = true;
         }
       }, 200);
 
-      setTimeout(() => {
+      later(() => {
         if (eyeLashes) {
           eyeLashes.style.opacity = '1';
         }
       }, 270);
     };
 
+    let raf = 0;
     const tick = () => {
       pos.current.x += (target.current.x - pos.current.x) * ease;
       pos.current.y += (target.current.y - pos.current.y) * ease;
@@ -151,12 +165,12 @@ const EyeSVG = () => {
         shine.setAttribute('cx', (cx + rx).toFixed(2));
         shine.setAttribute('cy', (cy + ry).toFixed(2));
       }
-      requestAnimationFrame(tick);
+      raf = requestAnimationFrame(tick);
     };
 
     const handleMouseDown = () => {
       blinkDown();
-      setNumberOfClicks(prev => prev + 1);
+      numberOfClicks.current += 1;
     };
 
     const handleMouseUp = () => {
@@ -164,8 +178,7 @@ const EyeSVG = () => {
     };
 
     const handleMouseEnter = () => {
-      console.log(numberOfClicks);
-      if (numberOfClicks > 3) {
+      if (numberOfClicks.current > 3) {
         squint();
       }
     };
@@ -181,11 +194,11 @@ const EyeSVG = () => {
 
     const doubleBlink = () => {
       blinkDown();
-      setTimeout(() => {
+      later(() => {
         blinkUp();
-        setTimeout(() => {
+        later(() => {
           blinkDown();
-          setTimeout(() => {
+          later(() => {
             blinkUp();
           }, 100);
         }, 200);
@@ -193,14 +206,14 @@ const EyeSVG = () => {
     };
 
     const automaticBlink = () => {
-      if (eyeOpen) {
+      if (eyeOpen.current) {
         blinkDown();
-        setTimeout(() => {
+        later(() => {
           blinkUp();
         }, 100);
       }
       const delay = 6000 + Math.random() * 12000;
-      setTimeout(automaticBlink, delay);
+      later(automaticBlink, delay);
     };
 
     // Event listeners
@@ -220,6 +233,8 @@ const EyeSVG = () => {
 
     // Cleanup
     return () => {
+      cancelAnimationFrame(raf);
+      timers.forEach(clearTimeout);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('touchmove', onMove);
       window.removeEventListener('pointerleave', handlePointerLeave);
@@ -228,7 +243,7 @@ const EyeSVG = () => {
       svg.removeEventListener('mouseenter', handleMouseEnter);
       svg.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [numberOfClicks, eyeOpen]);
+  }, []);
 
   return (
     <svg
