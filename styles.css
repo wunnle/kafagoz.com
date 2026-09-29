@@ -37,27 +37,25 @@ ul {
   margin: 0;
 }
 
-/* Project gallery: tall rounded panels in a row; the open panel widens
-   and shows its title and description over the screenshot. */
+/* Project grid: rounded image cards, wider than the text column, with the
+   title and description over a dark fade. The newest project spans two columns. */
 .projects {
-  --gap: 8px;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
   width: min(1000px, calc(100vw - 40px));
-  height: 420px;
-  display: flex;
-  gap: var(--gap);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .projects li {
-  flex: 1 1 0;
   min-width: 0;
-  transition: flex-grow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  height: 340px;
 }
 
-.projects li.active {
-  flex-grow: 7;
+.projects li:first-child {
+  grid-column: span 2;
 }
 
 .card {
@@ -91,35 +89,12 @@ ul {
 .window img {
   object-fit: cover;
   object-position: 30% top;
-  filter: grayscale(0.7) brightness(0.55);
-  transition: transform 0.6s ease, filter 0.4s ease;
+  transition: transform 0.6s ease;
 }
 
 .card:hover .window img,
-.active .window img {
-  filter: none;
-}
-
-/* Collapsed slices: the project name runs up the slice. */
-.vlabel {
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  bottom: 22px;
-  transform: translateX(-50%) rotate(180deg);
-  writing-mode: vertical-rl;
-  white-space: nowrap;
-  color: #fff;
-  font-weight: 600;
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
-  transition: opacity 0.25s;
-  pointer-events: none;
-}
-
-.active .vlabel {
-  opacity: 0;
+.card:focus-visible .window img {
+  transform: scale(1.04);
 }
 
 .card::after {
@@ -127,36 +102,17 @@ ul {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0.92) 100%);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-.active .card::after {
-  opacity: 1;
-}
-
-.active .window img {
-  transform: scale(1.03);
 }
 
 .chip,
 .text {
   position: absolute;
   z-index: 1;
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-
-.active .chip,
-.active .text {
-  opacity: 1;
-  transition-delay: 0.2s;
 }
 
 .chip {
-  top: 18px;
-  left: 18px;
+  top: 16px;
+  left: 16px;
   padding: 5px 12px;
   border-radius: 999px;
   background: #fff;
@@ -169,69 +125,56 @@ ul {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 0 24px 24px;
-  min-width: 260px;
+  padding: 0 20px 20px;
 }
 
 .text h2 {
-  font-size: 1.45rem;
-  margin: 0 0 0.4rem;
+  font-size: 1.2rem;
+  margin: 0 0 0.35rem;
   color: #fff;
 }
 
 .text p {
   color: rgba(255, 255, 255, 0.85);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   line-height: 1.5;
-  max-width: 34em;
+  max-width: 36em;
 }
 
 .text code {
   color: #fff;
 }
 
-@media (max-width: 700px) {
+.projects li:first-child .text h2 {
+  font-size: 1.45rem;
+}
+
+@media (max-width: 900px) {
+  .projects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
   .projects {
     left: 0;
     transform: none;
     width: auto;
-    height: auto;
-    flex-direction: column;
+    grid-template-columns: minmax(0, 1fr);
   }
   .projects li {
-    flex: none;
-    height: 64px;
-    transition: height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    height: 260px;
   }
-  .projects li.active {
-    height: 300px;
+  .projects li:first-child {
+    grid-column: auto;
   }
   .card {
     border-radius: 20px;
   }
-  .text {
-    min-width: 0;
-    padding: 0 18px 18px;
-  }
-  .vlabel {
-    left: 20px;
-    bottom: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    writing-mode: horizontal-tb;
-  }
-  .text h2 {
-    font-size: 1.25rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .projects li,
-  .window img,
-  .vlabel,
-  .card::after,
-  .chip,
-  .text {
+  .window img {
     transition: none;
   }
 }
