@@ -99,7 +99,7 @@ ul {
 
 .window img {
   object-fit: cover;
-  object-position: 30% top;
+  object-position: center top;
   transition: transform 0.6s ease;
 }
 
