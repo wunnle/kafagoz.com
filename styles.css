@@ -25,7 +25,9 @@ body {
 }
 
 h1 {
-  font-size: 1.6rem;
+  font-family: "Bricolage Grotesque", "Manrope", system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  font-size: 2rem;
   margin-bottom: 1.5rem;
   color: black;
   font-weight: 600;
@@ -66,6 +68,14 @@ ul {
   overflow: hidden;
   background: #1a1a1a;
   color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 14px 30px -12px rgba(0, 0, 0, 0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 24px 44px -14px rgba(0, 0, 0, 0.5);
 }
 
 .card:hover,
@@ -117,7 +127,10 @@ ul {
 }
 
 .text h2 {
-  font-size: 1.2rem;
+  font-family: "Bricolage Grotesque", "Manrope", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: 1.35rem;
   margin: 0 0 0.35rem;
   color: #fff;
 }
@@ -134,7 +147,7 @@ ul {
 }
 
 .projects li:first-child .text h2 {
-  font-size: 1.45rem;
+  font-size: 1.7rem;
 }
 
 @media (max-width: 900px) {
@@ -162,8 +175,13 @@ ul {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .window img {
+  .window img,
+  .card {
     transition: none;
+  }
+  .card:hover,
+  .card:focus-visible {
+    transform: none;
   }
 }
 
