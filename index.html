@@ -235,7 +235,7 @@
     <script>
       // A fresh, slightly random tilt for each screenshot on every visit.
       for (const w of document.querySelectorAll('.projects .window')) {
-        const deg = (1.5 + Math.random() * 2.5) * (Math.random() < 0.5 ? -1 : 1);
+        const deg = (0.75 + Math.random() * 1.25) * (Math.random() < 0.5 ? -1 : 1);
         w.style.setProperty('--tilt', deg.toFixed(1) + 'deg');
       }
     </script>

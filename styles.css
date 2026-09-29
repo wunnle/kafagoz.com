@@ -37,12 +37,8 @@ ul {
   margin: 0;
 }
 
-/* Project index: a ruled list, each row with its screenshot pinned
+/* Project index: a list divided by thin rules, each row with its screenshot pinned
    at a slight tilt and the header's bold black line as an offset shadow. */
-.projects {
-  border-top: 2px solid #111;
-}
-
 .projects li {
   border-bottom: 1px solid #cfcfcf;
 }
@@ -75,13 +71,13 @@ ul {
   overflow: hidden;
   background: #fff;
   box-shadow: 4px 4px 0 #111;
-  transform: rotate(var(--tilt, 2deg));
+  transform: rotate(var(--tilt, 1deg));
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Fallback tilts for when the randomizing script doesn't run. */
-.projects li:nth-child(odd) .window { --tilt: -2.5deg; }
-.projects li:nth-child(3n) .window { --tilt: 3deg; }
+.projects li:nth-child(odd) .window { --tilt: -1.25deg; }
+.projects li:nth-child(3n) .window { --tilt: 1.5deg; }
 
 .card:hover .window,
 .card:focus-visible .window {
