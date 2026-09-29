@@ -6,7 +6,7 @@ body {
 }
 
 .wrapper {
-  max-width: 650px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -27,8 +27,9 @@ body {
 h1 {
   font-family: "Bricolage Grotesque", "Manrope", system-ui, sans-serif;
   letter-spacing: -0.02em;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.15;
+  margin: 2.75rem 0 2.5rem;
   color: black;
   font-weight: 600;
 }
@@ -39,21 +40,17 @@ ul {
   margin: 0;
 }
 
-/* Project grid: rounded image cards, wider than the text column, with the
+/* Project grid: rounded image cards across the full column, with the
    title and description over a dark fade. The newest project spans two columns. */
 .projects {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(1000px, calc(100vw - 40px));
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 32px 28px;
 }
 
 .projects li {
   min-width: 0;
-  height: 340px;
+  height: 380px;
 }
 
 .projects li:first-child {
@@ -123,7 +120,7 @@ ul {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 0 20px 20px;
+  padding: 0 26px 26px;
 }
 
 .text h2 {
@@ -158,13 +155,14 @@ ul {
 
 @media (max-width: 600px) {
   .projects {
-    left: 0;
-    transform: none;
-    width: auto;
     grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
   }
   .projects li {
-    height: 260px;
+    height: 280px;
+  }
+  .text {
+    padding: 0 20px 20px;
   }
   .projects li:first-child {
     grid-column: auto;
@@ -206,10 +204,10 @@ p {
 
 /* Footer Styles */
 .footer {
-  margin-top: 4rem;
+  margin-top: 6rem;
   padding-top: 1.5rem;
   padding-bottom: 0.25rem;
-  max-width: 650px;
+  max-width: 1000px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
