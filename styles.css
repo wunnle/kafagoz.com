@@ -39,6 +39,33 @@ ul {
 
 li {
   margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.thumb:hover img {
+  border-color: #0077cc;
+}
+
+@media (max-width: 520px) {
+  li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
 }
 
 h2 {
