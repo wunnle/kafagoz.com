@@ -91,7 +91,35 @@ ul {
 .window img {
   object-fit: cover;
   object-position: 30% top;
-  transition: transform 0.6s ease;
+  filter: grayscale(0.7) brightness(0.55);
+  transition: transform 0.6s ease, filter 0.4s ease;
+}
+
+.card:hover .window img,
+.active .window img {
+  filter: none;
+}
+
+/* Collapsed slices: the project name runs up the slice. */
+.vlabel {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.active .vlabel {
+  opacity: 0;
 }
 
 .card::after {
@@ -99,7 +127,7 @@ ul {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0.92) 100%);
-  opacity: 0.35;
+  opacity: 0;
   transition: opacity 0.4s;
 }
 
@@ -185,6 +213,13 @@ ul {
     min-width: 0;
     padding: 0 18px 18px;
   }
+  .vlabel {
+    left: 20px;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    writing-mode: horizontal-tb;
+  }
   .text h2 {
     font-size: 1.25rem;
   }
@@ -193,6 +228,7 @@ ul {
 @media (prefers-reduced-motion: reduce) {
   .projects li,
   .window img,
+  .vlabel,
   .card::after,
   .chip,
   .text {
