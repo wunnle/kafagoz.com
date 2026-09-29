@@ -110,11 +110,10 @@
       <h1 id="title">Little things I built because I could</h1>
     </header>
     <ul class="projects">
-      <li class="featured">
+      <li>
         <a class="card" href="https://startrek.kafagoz.com/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>startrek.kafagoz.com</span></div>
-            <img src="images/startrek.webp" width="640" height="400" alt="" loading="eager">
+            <img src="images/startrek.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
             <h2>Star Trek Catan Cheat Sheet</h2>
@@ -125,8 +124,7 @@
       <li>
         <a class="card" href="https://digest.kafagoz.com/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>digest.kafagoz.com</span></div>
-            <img src="images/digest.webp" width="640" height="400" alt="" loading="eager">
+            <img src="images/digest.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
             <h2>Digest</h2>
@@ -137,8 +135,7 @@
       <li>
         <a class="card" href="https://4finger.kafagoz.com/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>4finger.kafagoz.com</span></div>
-            <img src="images/4finger.webp" width="640" height="400" alt="" loading="eager">
+            <img src="images/4finger.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
             <h2>Four-finger keyboard</h2>
@@ -149,7 +146,6 @@
       <li>
         <a class="card" href="https://timespent.kafagoz.com/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>timespent.kafagoz.com</span></div>
             <img src="images/timespent.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
@@ -161,7 +157,6 @@
       <li>
         <a class="card" href="https://splendor.kafagoz.com/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>splendor.kafagoz.com</span></div>
             <img src="images/splendor.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
@@ -173,7 +168,6 @@
       <li>
         <a class="card" href="https://freefall.kafagoz.com/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>freefall.kafagoz.com</span></div>
             <img src="images/freefall.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
@@ -185,7 +179,6 @@
       <li>
         <a class="card" href="https://wort.kafagoz.com/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>wort.kafagoz.com</span></div>
             <img src="images/wort.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
@@ -197,7 +190,6 @@
       <li>
         <a class="card" href="https://catan.wunnle.com/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>catan.wunnle.com</span></div>
             <img src="images/catan.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
@@ -209,7 +201,6 @@
       <li>
         <a class="card" href="https://deterministic-catan.wunnle.com/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>deterministic-catan.wunnle.com</span></div>
             <img src="images/deterministic-catan.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
@@ -221,7 +212,6 @@
       <li>
         <a class="card" href="https://clueless.wunnle.dev/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>clueless.wunnle.dev</span></div>
             <img src="images/clueless.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
@@ -233,7 +223,6 @@
       <li>
         <a class="card" href="https://lorentz.wunnle.dev/">
           <div class="window">
-            <div class="bar"><i></i><i></i><i></i><span>lorentz.wunnle.dev</span></div>
             <img src="images/lorentz.webp" width="640" height="400" alt="" loading="lazy">
           </div>
           <div class="text">
@@ -243,6 +232,13 @@
         </a>
       </li>
     </ul>
+    <script>
+      // A fresh, slightly random tilt for each screenshot on every visit.
+      for (const w of document.querySelectorAll('.projects .window')) {
+        const deg = (1.5 + Math.random() * 2.5) * (Math.random() < 0.5 ? -1 : 1);
+        w.style.setProperty('--tilt', deg.toFixed(1) + 'deg');
+      }
+    </script>
     <script>
       // Turkish copy for Turkish browsers, keyed by each project's link.
       // Runs before first paint, so the English never flashes.

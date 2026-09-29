@@ -37,71 +37,56 @@ ul {
   margin: 0;
 }
 
-/* Project cards: each screenshot framed as a little browser window,
-   with the header's bold black line echoed as an offset shadow. */
+/* Project index: a ruled list, each row with its screenshot pinned
+   at a slight tilt and the header's bold black line as an offset shadow. */
 .projects {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem 1.25rem;
+  border-top: 2px solid #111;
 }
 
 .projects li {
-  min-width: 0;
+  border-bottom: 1px solid #cfcfcf;
 }
 
 .card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background: #fff;
-  border: 2px solid #111;
-  border-radius: 12px;
-  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 1.75rem;
+  align-items: center;
+  padding: 1.5rem 0.25rem;
   color: inherit;
-  box-shadow: 3px 3px 0 #111;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .card:hover,
 .card:focus-visible {
   text-decoration: none;
-  transform: translate(-3px, -3px);
-  box-shadow: 6px 6px 0 #111;
   outline: none;
 }
 
+.card:hover h2,
+.card:focus-visible h2 {
+  text-decoration: underline;
+}
+
 .window {
-  border-bottom: 2px solid #111;
-  background: #fafafa;
-}
-
-.bar {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 10px;
-  border-bottom: 1px solid #e2e2e2;
-}
-
-.bar i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #d4d4d4;
-  transition: background 0.15s;
-}
-
-.card:hover .bar i:nth-child(1) { background: #ff5f57; }
-.card:hover .bar i:nth-child(2) { background: #febc2e; }
-.card:hover .bar i:nth-child(3) { background: #28c840; }
-
-.bar span {
-  margin-left: 6px;
-  font: 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-  color: #888;
-  white-space: nowrap;
+  grid-column: 2;
+  grid-row: 1;
+  border: 2px solid #111;
+  border-radius: 8px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  background: #fff;
+  box-shadow: 4px 4px 0 #111;
+  transform: rotate(var(--tilt, 2deg));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Fallback tilts for when the randomizing script doesn't run. */
+.projects li:nth-child(odd) .window { --tilt: -2.5deg; }
+.projects li:nth-child(3n) .window { --tilt: 3deg; }
+
+.card:hover .window,
+.card:focus-visible .window {
+  transform: rotate(0deg) translate(-2px, -2px) scale(1.04);
+  box-shadow: 6px 6px 0 #111;
 }
 
 .window img {
@@ -114,58 +99,35 @@ ul {
 }
 
 .text {
-  padding: 0.85rem 1rem 1rem;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .text h2 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin: 0 0 0.35rem;
   color: #0077cc;
 }
 
 .text p {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   line-height: 1.5;
 }
 
-.featured {
-  grid-column: 1 / -1;
-}
-
-.featured .card {
-  flex-direction: row;
-}
-
-.featured .window {
-  flex: 0 0 58%;
-  border-bottom: 0;
-  border-right: 2px solid #111;
-}
-
-.featured .text {
-  align-self: center;
-  padding: 1.25rem;
-}
-
-.featured .text h2 {
-  font-size: 1.35rem;
-}
-
-@media (max-width: 600px) {
-  .projects {
-    grid-template-columns: minmax(0, 1fr);
+@media (max-width: 520px) {
+  .card {
+    grid-template-columns: minmax(0, 1fr) 112px;
+    gap: 1rem;
+    padding: 1.25rem 0.25rem;
   }
-  .featured .card {
-    flex-direction: column;
-  }
-  .featured .window {
-    border-right: 0;
-    border-bottom: 2px solid #111;
+  .window {
+    border-width: 1.5px;
+    box-shadow: 3px 3px 0 #111;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card { transition: none; }
+  .window { transition: none; }
 }
 
 h2 {
