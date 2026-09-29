@@ -107,7 +107,7 @@
             fill="black" fill-opacity="0.1" />
         </svg>
       </div>
-      <h1>Birtakım ufak tefek projeler</h1>
+      <h1 id="title">Little things I built because I could</h1>
     </header>
     <ul>
       <li>
@@ -151,6 +151,30 @@
         <p>An interactive simulation of the Lorentz force (F = q(E + v × B)) using HTML5 Canvas.</p>
       </li>
     </ul>
+    <script>
+      // Turkish copy for Turkish browsers, keyed by each project's link.
+      // Runs before first paint, so the English never flashes.
+      if (/^tr\b/i.test(navigator.language)) {
+        const tr = {
+          'https://digest.kafagoz.com/': 'Elle seçilmiş kaynaklardan bir ajanın her gün derlediği yapay zekâ ve yazılım geliştirme paylaşımları.',
+          'https://4finger.kafagoz.com/': 'Harfleri <code>L</code>, <code>R</code> ve <code>•</code> kalıplarıyla yazmak için dört tuşlu, minimalist bir akor klavyesi denemesi.',
+          'https://timespent.kafagoz.com/': 'Yaptığın işler için süre takipçileri.',
+          'https://splendor.kafagoz.com/': 'Splendor geliştirme kartlarını incele ve filtrele, elindeki taşlarla neye gücünün yettiğini gör.',
+          'https://freefall.kafagoz.com/': 'Anlık grafikleriyle etkileşimli bir serbest düşüş simülatörü.',
+          'https://wort.kafagoz.com/': 'Almanca ↔ İngilizce kelime çalışmak için Duolingo tarzı küçük bir eşleştirme oyunu.',
+          'https://catan.wunnle.com/': 'Sayı ve kaynak kurallarına, komşuluk ayarlarına göre rastgele Catan haritaları.',
+          'https://deterministic-catan.wunnle.com/': 'Zarların önceden üretilip tek tek açıldığı, şansı azaltan bir Catan varyantı.',
+          'https://clueless.wunnle.dev/': '<em>Clues by Sam</em>’in bulmacası sökülmüş bir kopyası: hiçbir şeyi “çözmek” ne kadar sürüyor, onu gösteriyor.',
+          'https://lorentz.wunnle.dev/': 'Lorentz kuvvetinin (F = q(E + v × B)) HTML5 Canvas ile yapılmış etkileşimli bir simülasyonu.',
+        };
+        document.documentElement.lang = 'tr';
+        document.getElementById('title').textContent = 'Birtakım ufak tefek projeler';
+        for (const li of document.querySelectorAll('.wrapper li')) {
+          const text = tr[li.querySelector('a').href];
+          if (text) li.querySelector('p').innerHTML = text;
+        }
+      }
+    </script>
   </div>
 
   <footer class="footer">
